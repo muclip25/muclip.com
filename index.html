@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>muclip — Short-Form Content Agency</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --white:#fff;--off:#f0ede8;--dim:#a09e99;--dark:#0d0c0b;--darker:#080807;
+    --accent:#e8ff47;--card:#161513;--border:rgba(255,255,255,0.07);
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--darker);color:var(--white);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 3rem;background:rgba(8,8,7,0.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  .logo{font-size:1.25rem;font-weight:700;letter-spacing:-0.03em}
+  .logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:2.5rem;font-size:0.85rem;color:var(--dim);letter-spacing:0.04em;text-transform:uppercase}
+  .nav-links a:hover{color:var(--white);transition:color .2s}
+  .nav-cta{background:var(--accent);color:#000;font-size:0.8rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.55rem 1.25rem;border-radius:4px;cursor:pointer;border:none}
+  .nav-cta:hover{opacity:.85}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,8,7,0.3) 0%,rgba(8,8,7,0.7) 60%,var(--darker) 100%);z-index:1}
+  .hero-video-wrap{position:absolute;inset:0;overflow:hidden}
+  .hero-video-wrap video{width:100%;height:100%;object-fit:cover;opacity:.55;filter:saturate(0.4)}
+  .hero-content{position:relative;z-index:2;max-width:900px}
+  .hero-tag{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;font-weight:600}
+  .hero-title{font-size:clamp(3rem,8vw,7rem);font-weight:800;line-height:0.95;letter-spacing:-0.04em;margin-bottom:2rem}
+  .hero-title em{font-style:normal;color:var(--accent)}
+  .hero-sub{font-size:1.1rem;color:var(--dim);max-width:420px;line-height:1.6;margin-bottom:3rem}
+  .hero-actions{display:flex;gap:1rem;align-items:center}
+  .btn-primary{background:var(--accent);color:#000;font-weight:700;font-size:0.9rem;padding:0.85rem 2rem;border-radius:4px;letter-spacing:0.02em;cursor:pointer;border:none;transition:opacity .2s}
+  .btn-primary:hover{opacity:.85}
+  .btn-ghost{color:var(--dim);font-size:0.9rem;display:flex;align-items:center;gap:0.4rem;cursor:pointer;border:none;background:none;transition:color .2s}
+  .btn-ghost:hover{color:var(--white)}
+  .hero-scroll{position:absolute;bottom:2.5rem;right:3rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.5rem;color:var(--dim);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase}
+  .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollpulse 2s infinite}
+  @keyframes scrollpulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+  /* TICKER */
+  .ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0.8rem 0;overflow:hidden;position:relative;background:var(--dark)}
+  .ticker-inner{display:flex;gap:0;white-space:nowrap;animation:ticker 25s linear infinite}
+  .ticker-inner:hover{animation-play-state:paused}
+  .ticker-item{display:inline-flex;align-items:center;gap:2rem;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);padding:0 2.5rem}
+  .ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
+  @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* SECTION BASE */
+  section{padding:6rem 3rem}
+  .section-label{font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;font-weight:600}
+  .section-title{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1rem}
+  .section-sub{color:var(--dim);font-size:1rem;max-width:480px;line-height:1.65}
+
+  /* SERVICES */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4rem;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .service-card{background:var(--card);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .25s}
+  .service-card:hover{background:#1c1a18}
+  .service-num{font-size:0.7rem;color:var(--accent);letter-spacing:0.12em;font-weight:600;margin-bottom:2rem}
+  .service-icon{width:36px;height:36px;margin-bottom:1.5rem;opacity:.7}
+  .service-name{font-size:1.3rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:1rem}
+  .service-desc{font-size:0.88rem;color:var(--dim);line-height:1.7}
+  .service-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .service-card:hover::after{transform:scaleX(1)}
+
+  /* PORTFOLIO */
+  .portfolio{background:var(--dark)}
+  .portfolio-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
+  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+  .vid-card{border-radius:8px;overflow:hidden;background:var(--card);cursor:pointer;position:relative}
+  .vid-thumb{width:100%;aspect-ratio:9/16;display:block;background:#1a1814;position:relative;overflow:hidden}
+  .vid-thumb-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:transform .4s}
+  .vid-card:hover .vid-thumb-inner{transform:scale(1.03)}
+  .thumb-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 60%)}
+  .thumb-content{position:absolute;bottom:0;left:0;right:0;padding:1.25rem}
+  .vid-brand{font-size:0.7rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;font-weight:600;margin-bottom:0.4rem}
+  .vid-title{font-size:0.95rem;font-weight:700;line-height:1.25;margin-bottom:0.75rem}
+  .vid-meta{display:flex;gap:1rem;font-size:0.75rem;color:rgba(255,255,255,.55)}
+  .vid-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s}
+  .vid-card:hover .vid-play{background:var(--accent)}
+  .vid-card:hover .vid-play path{fill:#000}
+  .vid-badge{position:absolute;top:0.75rem;right:0.75rem;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12);border-radius:3px;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.5rem;backdrop-filter:blur(4px)}
+
+  /* WHY */
+  .why-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+  .why-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:3rem}
+  .stat-box{background:var(--darker);padding:2rem 1.5rem}
+  .stat-num{font-size:2.5rem;font-weight:800;letter-spacing:-0.04em;color:var(--accent)}
+  .stat-label{font-size:0.78rem;color:var(--dim);margin-top:0.35rem;text-transform:uppercase;letter-spacing:0.08em}
+  .why-points{display:flex;flex-direction:column;gap:2rem}
+  .why-point{display:flex;gap:1.25rem;align-items:flex-start}
+  .point-num{font-size:0.7rem;color:var(--accent);font-weight:700;margin-top:0.15rem;flex-shrink:0;letter-spacing:0.06em}
+  .point-body h4{font-size:1rem;font-weight:700;margin-bottom:0.35rem;letter-spacing:-0.01em}
+  .point-body p{font-size:0.85rem;color:var(--dim);line-height:1.65}
+
+  /* CTA */
+  .cta-section{background:var(--dark);text-align:center;padding:7rem 3rem}
+  .cta-title{font-size:clamp(2.5rem,6vw,5.5rem);font-weight:800;letter-spacing:-0.04em;line-height:0.95;margin-bottom:1.5rem}
+  .cta-title em{font-style:normal;color:var(--accent)}
+  .cta-sub{color:var(--dim);font-size:1rem;margin-bottom:3rem}
+  .cta-form{display:flex;gap:0.75rem;justify-content:center;max-width:440px;margin:0 auto}
+  .cta-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--white);font-size:0.9rem;padding:0.85rem 1.25rem;border-radius:4px;outline:none;transition:border-color .2s}
+  .cta-input::placeholder{color:var(--dim)}
+  .cta-input:focus{border-color:rgba(232,255,71,.4)}
+
+  /* FOOTER */
+  footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .foot-copy{font-size:0.78rem;color:var(--dim)}
+  .foot-links{display:flex;gap:2rem;font-size:0.78rem;color:var(--dim)}
+  .foot-links a:hover{color:var(--white)}
+
+  /* SCROLL ANIMATIONS */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    section{padding:4rem 1.5rem}
+    .hero{padding:0 1.5rem 4rem}
+    .services-grid{grid-template-columns:1fr}
+    .portfolio-grid{grid-template-columns:1fr 1fr}
+    .why-inner{grid-template-columns:1fr;gap:3rem}
+    footer{flex-direction:column;gap:1rem;text-align:center}
+  }
+  @media(max-width:540px){
+    .portfolio-grid{grid-template-columns:1fr}
+    .cta-form{flex-direction:column}
+    .hero-scroll{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">mu<span>clip</span></div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#portfolio">Work</a>
+    <a href="#why">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-video-wrap">
+    <!--
+      배경 영상 사용 시:
+      <video autoplay muted loop playsinline>
+        <source src="assets/hero.mp4" type="video/mp4">
+      </video>
+      → /assets/hero.mp4 에 영상 파일을 넣으세요.
+    -->
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0a0800 0%,#050510 50%,#08000a 100%)"></div>
+  </div>
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Short-form content agency</div>
+    <h1 class="hero-title">We make<br>the scroll<br><em>stop.</em></h1>
+    <p class="hero-sub">Your audience has 2.5 seconds. We use every one of them.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start a project</button>
+      <button class="btn-ghost" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">
+        <span>See our work</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><div class="ticker-dot"></div>Content Strategy</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Short-form Production</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Growth Optimization</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Platform-Native Video</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Trend Intelligence</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Hook Engineering</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Viral Systems</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Content Strategy</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Short-form Production</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Growth Optimization</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Platform-Native Video</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Trend Intelligence</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Hook Engineering</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Viral Systems</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="reveal">
+    <div class="section-label">What we do</div>
+    <h2 class="section-title">Built for the<br>attention economy.</h2>
+    <p class="section-sub">Three core disciplines. One goal — make your brand impossible to ignore.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01 —</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="20" rx="3" stroke="#e8ff47" stroke-width="1.5"/><path d="M14 13l9 5-9 5V13z" fill="#e8ff47"/></svg>
+      <div class="service-name">Content Strategy</div>
+      <p class="service-desc">We map your audience's scroll behavior and build a content system around it. Every post has a purpose. Every format earns its place.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02 —</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="12" stroke="#e8ff47" stroke-width="1.5"/><path d="M15 13l8 5-8 5V13z" fill="#e8ff47"/><path d="M6 18h4M26 18h4" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="service-name">Short-form Production</div>
+      <p class="service-desc">TikTok. Reels. Shorts. We produce vertical video that feels native — not repurposed. Hooks that land. Edits that move. Stories that convert.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03 —</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none"><polyline points="4,28 12,18 20,22 28,10" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="10" r="3" fill="#e8ff47"/></svg>
+      <div class="service-name">Growth</div>
+      <p class="service-desc">Posting isn't a strategy. We analyze what's working, double down on signals, and build compounding momentum. Views turn into followers. Followers turn into revenue.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="portfolio">
+  <div class="portfolio-header reveal">
+    <div>
+      <div class="section-label">Selected Work</div>
+      <h2 class="section-title">Results speak.</h2>
+    </div>
+    <a href="#contact" style="font-size:.85rem;color:var(--dim);display:flex;align-items:center;gap:.5rem">
+      View all
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div class="portfolio-grid reveal">
+    <div class="vid-card">
+      <div class="vid-thumb">
+        <div class="vid-thumb-inner" style="background:linear-gradient(160deg,#1a0f00,#0d0c0b)">
+          <div class="thumb-gradient"></div>
+          <div class="vid-play">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="white"/></svg>
+          </div>
+        </div>
+        <div class="vid-badge">Reels</div>
+        <div class="thumb-content">
+          <div class="vid-brand">Dune Coffee</div>
+          <div class="vid-title">Behind the pour — 60 sec origin story</div>
+          <div class="vid-meta"><span>▶ 4.2M views</span><span>+212K followers</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="vid-card">
+      <div class="vid-thumb">
+        <div class="vid-thumb-inner" style="background:linear-gradient(160deg,#000d1a,#0d0c0b)">
+          <div class="thumb-gradient"></div>
+          <div class="vid-play">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="white"/></svg>
+          </div>
+        </div>
+        <div class="vid-badge">TikTok</div>
+        <div class="thumb-content">
+          <div class="vid-brand">Vault Apparel</div>
+          <div class="vid-title">The drop that broke the algorithm</div>
+          <div class="vid-meta"><span>▶ 8.9M views</span><span>+380K followers</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="vid-card">
+      <div class="vid-thumb">
+        <div class="vid-thumb-inner" style="background:linear-gradient(160deg,#070012,#0d0c0b)">
+          <div class="thumb-gradient"></div>
+          <div class="vid-play">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="white"/></svg>
+          </div>
+        </div>
+        <div class="vid-badge">Shorts</div>
+        <div class="thumb-content">
+          <div class="vid-brand">Forma Studio</div>
+          <div class="vid-title">Process video series — 30 days, 30 posts</div>
+          <div class="vid-meta"><span>▶ 11.3M views</span><span>+540K followers</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY MUCLIP -->
+<section id="why">
+  <div class="why-inner">
+    <div class="reveal">
+      <div class="section-label">Why muclip</div>
+      <h2 class="section-title">The feed<br>changed.<br>We did too.</h2>
+      <p class="section-sub" style="margin-bottom:0">Most agencies still think in campaigns. We think in feeds. In scrolls. In 0.3-second decisions.</p>
+      <div class="why-stats">
+        <div class="stat-box"><div class="stat-num">2.5s</div><div class="stat-label">Average hook window</div></div>
+        <div class="stat-box"><div class="stat-num">91%</div><div class="stat-label">Users prefer short-form</div></div>
+        <div class="stat-box"><div class="stat-num">3×</div><div class="stat-label">Higher engagement vs. long-form</div></div>
+        <div class="stat-box"><div class="stat-num">68%</div><div class="stat-label">Purchase decisions from video</div></div>
+      </div>
+    </div>
+    <div class="why-points reveal">
+      <div class="why-point">
+        <div class="point-num">01</div>
+        <div class="point-body">
+          <h4>Platform-native thinking</h4>
+          <p>We don't adapt content — we create it for the platform from frame one. TikTok, Reels, and Shorts each have their own language. We're fluent in all three.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="point-num">02</div>
+        <div class="point-body">
+          <h4>Hook engineering</h4>
+          <p>Every video starts with a problem. The hook is a science, not an art. We test, iterate, and engineer first-frames that stop the scroll cold.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="point-num">03</div>
+        <div class="point-body">
+          <h4>Data-driven iteration</h4>
+          <p>We don't guess. After every post, we study the signal. Retention curves, swipe-aways, replays — all feed back into the next piece.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="point-num">04</div>
+        <div class="point-body">
+          <h4>Volume without compromise</h4>
+          <p>Consistency wins on short-form. We deliver volume at quality — built for brands that want to show up every day and win every day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section id="contact" class="cta-section">
+  <div class="reveal">
+    <div class="section-label" style="display:inline-block">Ready to grow?</div>
+    <h2 class="cta-title">Stop posting.<br>Start <em>winning.</em></h2>
+    <p class="cta-sub">Tell us your brand. We'll handle the rest.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" placeholder="your@email.com" id="ctaEmail">
+      <button class="btn-primary" onclick="handleCTA()">Get started</button>
+    </div>
+    <p id="ctaMsg" style="margin-top:1rem;font-size:.8rem;color:var(--accent);min-height:1.2rem"></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">mu<span>clip</span></div>
+  <div class="foot-copy">© 2026 muclip. All rights reserved.</div>
+  <div class="foot-links">
+    <a href="#">Instagram</a>
+    <a href="#">TikTok</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  function handleCTA(){
+    const email = document.getElementById('ctaEmail').value;
+    const msg = document.getElementById('ctaMsg');
+    if(!email || !email.includes('@')){
+      msg.style.color='#ff6b6b';
+      msg.textContent='Enter a valid email to continue.';
+      return;
+    }
+    msg.style.color='var(--accent)';
+    msg.textContent="We'll be in touch within 24 hours.";
+    document.getElementById('ctaEmail').value='';
+  }
+
+  window.addEventListener('scroll',()=>{
+    const nav = document.querySelector('nav');
+    nav.style.borderBottomColor = window.scrollY > 50 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)';
+  });
+</script>
+</body>
+</html>
