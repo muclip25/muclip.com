@@ -1,137 +1,453 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>muclip — Short-Form Content Agency</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MuClip — Video Marketing Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  :root{
-    --white:#fff;--off:#f0ede8;--dim:#a09e99;--dark:#0d0c0b;--darker:#080807;
-    --accent:#e8ff47;--card:#161513;--border:rgba(255,255,255,0.07);
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ec;
+    --cream: #f0ead8;
+    --accent: #c8f03e;
+    --accent2: #ff6b35;
+    --muted: #8a8780;
+    --border: rgba(255,255,255,0.1);
   }
-  html{scroll-behavior:smooth}
-  body{background:var(--darker);color:var(--white);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden}
-  a{text-decoration:none;color:inherit}
-
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 3rem;background:rgba(8,8,7,0.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-  .logo{font-size:1.25rem;font-weight:700;letter-spacing:-0.03em}
-  .logo span{color:var(--accent)}
-  .nav-links{display:flex;gap:2.5rem;font-size:0.85rem;color:var(--dim);letter-spacing:0.04em;text-transform:uppercase}
-  .nav-links a:hover{color:var(--white);transition:color .2s}
-  .nav-cta{background:var(--accent);color:#000;font-size:0.8rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.55rem 1.25rem;border-radius:4px;cursor:pointer;border:none}
-  .nav-cta:hover{opacity:.85}
-
-  /* HERO */
-  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,8,7,0.3) 0%,rgba(8,8,7,0.7) 60%,var(--darker) 100%);z-index:1}
-  .hero-video-wrap{position:absolute;inset:0;overflow:hidden}
-  .hero-video-wrap video{width:100%;height:100%;object-fit:cover;opacity:.55;filter:saturate(0.4)}
-  .hero-content{position:relative;z-index:2;max-width:900px}
-  .hero-tag{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;font-weight:600}
-  .hero-title{font-size:clamp(3rem,8vw,7rem);font-weight:800;line-height:0.95;letter-spacing:-0.04em;margin-bottom:2rem}
-  .hero-title em{font-style:normal;color:var(--accent)}
-  .hero-sub{font-size:1.1rem;color:var(--dim);max-width:420px;line-height:1.6;margin-bottom:3rem}
-  .hero-actions{display:flex;gap:1rem;align-items:center}
-  .btn-primary{background:var(--accent);color:#000;font-weight:700;font-size:0.9rem;padding:0.85rem 2rem;border-radius:4px;letter-spacing:0.02em;cursor:pointer;border:none;transition:opacity .2s}
-  .btn-primary:hover{opacity:.85}
-  .btn-ghost{color:var(--dim);font-size:0.9rem;display:flex;align-items:center;gap:0.4rem;cursor:pointer;border:none;background:none;transition:color .2s}
-  .btn-ghost:hover{color:var(--white)}
-  .hero-scroll{position:absolute;bottom:2.5rem;right:3rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.5rem;color:var(--dim);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase}
-  .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollpulse 2s infinite}
-  @keyframes scrollpulse{0%,100%{opacity:.4}50%{opacity:1}}
-
-  /* TICKER */
-  .ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0.8rem 0;overflow:hidden;position:relative;background:var(--dark)}
-  .ticker-inner{display:flex;gap:0;white-space:nowrap;animation:ticker 25s linear infinite}
-  .ticker-inner:hover{animation-play-state:paused}
-  .ticker-item{display:inline-flex;align-items:center;gap:2rem;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);padding:0 2.5rem}
-  .ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
-  @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
-  /* SECTION BASE */
-  section{padding:6rem 3rem}
-  .section-label{font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;font-weight:600}
-  .section-title{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1rem}
-  .section-sub{color:var(--dim);font-size:1rem;max-width:480px;line-height:1.65}
-
-  /* SERVICES */
-  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4rem;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .service-card{background:var(--card);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .25s}
-  .service-card:hover{background:#1c1a18}
-  .service-num{font-size:0.7rem;color:var(--accent);letter-spacing:0.12em;font-weight:600;margin-bottom:2rem}
-  .service-icon{width:36px;height:36px;margin-bottom:1.5rem;opacity:.7}
-  .service-name{font-size:1.3rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:1rem}
-  .service-desc{font-size:0.88rem;color:var(--dim);line-height:1.7}
-  .service-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
-  .service-card:hover::after{transform:scaleX(1)}
-
-  /* PORTFOLIO */
-  .portfolio{background:var(--dark)}
-  .portfolio-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
-  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-  .vid-card{border-radius:8px;overflow:hidden;background:var(--card);cursor:pointer;position:relative}
-  .vid-thumb{width:100%;aspect-ratio:9/16;display:block;background:#1a1814;position:relative;overflow:hidden}
-  .vid-thumb-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:transform .4s}
-  .vid-card:hover .vid-thumb-inner{transform:scale(1.03)}
-  .thumb-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 60%)}
-  .thumb-content{position:absolute;bottom:0;left:0;right:0;padding:1.25rem}
-  .vid-brand{font-size:0.7rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;font-weight:600;margin-bottom:0.4rem}
-  .vid-title{font-size:0.95rem;font-weight:700;line-height:1.25;margin-bottom:0.75rem}
-  .vid-meta{display:flex;gap:1rem;font-size:0.75rem;color:rgba(255,255,255,.55)}
-  .vid-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s}
-  .vid-card:hover .vid-play{background:var(--accent)}
-  .vid-card:hover .vid-play path{fill:#000}
-  .vid-badge{position:absolute;top:0.75rem;right:0.75rem;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12);border-radius:3px;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.5rem;backdrop-filter:blur(4px)}
-
-  /* WHY */
-  .why-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
-  .why-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:3rem}
-  .stat-box{background:var(--darker);padding:2rem 1.5rem}
-  .stat-num{font-size:2.5rem;font-weight:800;letter-spacing:-0.04em;color:var(--accent)}
-  .stat-label{font-size:0.78rem;color:var(--dim);margin-top:0.35rem;text-transform:uppercase;letter-spacing:0.08em}
-  .why-points{display:flex;flex-direction:column;gap:2rem}
-  .why-point{display:flex;gap:1.25rem;align-items:flex-start}
-  .point-num{font-size:0.7rem;color:var(--accent);font-weight:700;margin-top:0.15rem;flex-shrink:0;letter-spacing:0.06em}
-  .point-body h4{font-size:1rem;font-weight:700;margin-bottom:0.35rem;letter-spacing:-0.01em}
-  .point-body p{font-size:0.85rem;color:var(--dim);line-height:1.65}
-
-  /* CTA */
-  .cta-section{background:var(--dark);text-align:center;padding:7rem 3rem}
-  .cta-title{font-size:clamp(2.5rem,6vw,5.5rem);font-weight:800;letter-spacing:-0.04em;line-height:0.95;margin-bottom:1.5rem}
-  .cta-title em{font-style:normal;color:var(--accent)}
-  .cta-sub{color:var(--dim);font-size:1rem;margin-bottom:3rem}
-  .cta-form{display:flex;gap:0.75rem;justify-content:center;max-width:440px;margin:0 auto}
-  .cta-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--white);font-size:0.9rem;padding:0.85rem 1.25rem;border-radius:4px;outline:none;transition:border-color .2s}
-  .cta-input::placeholder{color:var(--dim)}
-  .cta-input:focus{border-color:rgba(232,255,71,.4)}
-
-  /* FOOTER */
-  footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-  .foot-copy{font-size:0.78rem;color:var(--dim)}
-  .foot-links{display:flex;gap:2rem;font-size:0.78rem;color:var(--dim)}
-  .foot-links a:hover{color:var(--white)}
-
-  /* SCROLL ANIMATIONS */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-  .reveal.visible{opacity:1;transform:none}
-
-  /* RESPONSIVE */
-  @media(max-width:900px){
-    nav{padding:1rem 1.5rem}
-    .nav-links{display:none}
-    section{padding:4rem 1.5rem}
-    .hero{padding:0 1.5rem 4rem}
-    .services-grid{grid-template-columns:1fr}
-    .portfolio-grid{grid-template-columns:1fr 1fr}
-    .why-inner{grid-template-columns:1fr;gap:3rem}
-    footer{flex-direction:column;gap:1rem;text-align:center}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
   }
-  @media(max-width:540px){
-    .portfolio-grid{grid-template-columns:1fr}
-    .cta-form{flex-direction:column}
-    .hero-scroll{display:none}
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent);
+    color: var(--black) !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.02em !important;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 70% 60% at 70% 40%, rgba(200,240,62,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 20% 70%, rgba(255,107,53,0.06) 0%, transparent 50%);
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    width: fit-content;
+    position: relative; z-index: 1;
+  }
+  .hero-tag .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    position: relative; z-index: 1;
+    margin-bottom: 0.2em;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+    display: block;
+  }
+  h1 .line2 { color: var(--white); }
+  .hero-sub {
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-top: 2rem;
+    position: relative; z-index: 1;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center;
+    margin-top: 2.5rem;
+    position: relative; z-index: 1;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+  .btn-ghost {
+    color: var(--white);
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    border: 0.5px solid rgba(255,255,255,0.2);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); }
+  .hero-stats {
+    display: flex; gap: 3rem;
+    margin-top: 4rem;
+    position: relative; z-index: 1;
+    padding-top: 2rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: var(--muted); font-size: 0.75rem; letter-spacing: 0.06em;
+    text-transform: uppercase; z-index: 1;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+    animation: scrollDown 2s ease-in-out infinite;
+  }
+  @keyframes scrollDown {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    padding: 1.5rem 0;
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    overflow: hidden;
+    background: rgba(200,240,62,0.03);
+  }
+  .marquee-track {
+    display: flex; gap: 4rem;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .marquee-item::after {
+    content: '✦';
+    color: var(--accent);
+    font-size: 0.6rem;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 2.5rem; }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block; width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .about-left { }
+  .about-desc {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+  }
+  .about-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+  .badge {
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    color: var(--white);
+  }
+  .about-right {
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-right::before {
+    content: '';
+    position: absolute; top: -40%; right: -20%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,240,62,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .founder-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .founder-title {
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+  }
+  .founder-details { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; }
+  .detail-row {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    font-size: 0.9rem; color: var(--muted);
+  }
+  .detail-row .icon { color: var(--accent); font-size: 1rem; margin-top: 1px; }
+
+  /* ── SERVICES ── */
+  #services { background: rgba(255,255,255,0.015); }
+  .services-header { max-width: 600px; margin-bottom: 3.5rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-radius: 16px; overflow: hidden; }
+  .service-card {
+    background: var(--black);
+    padding: 2.5rem 2rem;
+    transition: background 0.3s;
+    position: relative;
+  }
+  .service-card:hover { background: rgba(200,240,62,0.04); }
+  .service-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  .service-icon {
+    font-size: 2rem; margin-bottom: 1rem;
+    display: block;
+  }
+  .service-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--white);
+  }
+  .service-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+  .service-tag {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── PROCESS ── */
+  #process { }
+  .process-header { max-width: 500px; margin-bottom: 4rem; }
+  .process-steps { display: flex; flex-direction: column; gap: 0; }
+  .process-step {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 2.5rem 0;
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+  }
+  .process-step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .process-step:hover .step-num { color: var(--accent); }
+  .step-body { }
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: var(--white);
+  }
+  .step-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 480px; }
+
+  /* ── WHY / SOCIOLOGY ── */
+  #why {
+    background: var(--accent);
+    color: var(--black);
+    border-radius: 24px;
+    margin: 0 2.5rem;
+    padding: 5rem 4rem;
+  }
+  #why .section-label { color: rgba(0,0,0,0.5); }
+  #why .section-label::before { background: rgba(0,0,0,0.5); }
+  #why h2 { color: var(--black); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+  .why-point { }
+  .why-point-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--black);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .why-point-title::before {
+    content: '→';
+    font-size: 0.9rem;
+  }
+  .why-point-desc { font-size: 0.9rem; color: rgba(0,0,0,0.6); line-height: 1.7; }
+
+  /* ── CTA ── */
+  #contact {
+    text-align: center;
+    padding: 8rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  #contact::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,240,62,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #contact h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); position: relative; z-index: 1; }
+  #contact p { color: var(--muted); font-size: 1.1rem; margin: 1.5rem auto; max-width: 480px; line-height: 1.7; position: relative; z-index: 1; }
+  .contact-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; position: relative; z-index: 1; }
+  .btn-big {
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer p { color: var(--muted); font-size: 0.82rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+
+  /* ── ANIMATION ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    #about { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    #why { margin: 0 1rem; padding: 3rem 2rem; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
   }
 </style>
 </head>
@@ -139,255 +455,241 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo">mu<span>clip</span></div>
-  <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#portfolio">Work</a>
-    <a href="#why">About</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
+  <a href="#" class="logo">Mu<span>Clip</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Work with me</a></li>
+  </ul>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-video-wrap">
-    <!--
-      배경 영상 사용 시:
-      <video autoplay muted loop playsinline>
-        <source src="assets/hero.mp4" type="video/mp4">
-      </video>
-      → /assets/hero.mp4 에 영상 파일을 넣으세요.
-    -->
-    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0a0800 0%,#050510 50%,#08000a 100%)"></div>
-  </div>
+<section id="hero">
   <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-tag">Short-form content agency</div>
-    <h1 class="hero-title">We make<br>the scroll<br><em>stop.</em></h1>
-    <p class="hero-sub">Your audience has 2.5 seconds. We use every one of them.</p>
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start a project</button>
-      <button class="btn-ghost" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">
-        <span>See our work</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
+  <div class="hero-tag">
+    <span class="dot"></span>
+    Available for new projects
+  </div>
+  <h1>
+    <span class="line2">Video that</span>
+    <em>moves people.</em>
+  </h1>
+  <p class="hero-sub">
+    YouTube-driven brand marketing and influencer content — built on sociology, powered by storytelling. Based in the U.S., working globally.
+  </p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary btn-big">Start a project →</a>
+    <a href="#services" class="btn-ghost">See what I do</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">YouTube</div>
+      <div class="stat-label">Primary platform</div>
+    </div>
+    <div>
+      <div class="stat-num">B2B + B2C</div>
+      <div class="stat-label">Brand types served</div>
+    </div>
+    <div>
+      <div class="stat-num">US + Global</div>
+      <div class="stat-label">Market reach</div>
     </div>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
+  <div class="hero-scroll">scroll<div class="scroll-line"></div></div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-inner">
-    <div class="ticker-item"><div class="ticker-dot"></div>Content Strategy</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Short-form Production</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Growth Optimization</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Platform-Native Video</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Trend Intelligence</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Hook Engineering</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Viral Systems</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Content Strategy</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Short-form Production</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Growth Optimization</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Platform-Native Video</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Trend Intelligence</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Hook Engineering</div>
-    <div class="ticker-item"><div class="ticker-dot"></div>Viral Systems</div>
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">YouTube Strategy</span>
+    <span class="marquee-item">Brand Marketing</span>
+    <span class="marquee-item">Influencer Content</span>
+    <span class="marquee-item">Social Video</span>
+    <span class="marquee-item">Consumer Behavior Analysis</span>
+    <span class="marquee-item">US Market</span>
+    <span class="marquee-item">YouTube Strategy</span>
+    <span class="marquee-item">Brand Marketing</span>
+    <span class="marquee-item">Influencer Content</span>
+    <span class="marquee-item">Social Video</span>
+    <span class="marquee-item">Consumer Behavior Analysis</span>
+    <span class="marquee-item">US Market</span>
   </div>
 </div>
 
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left reveal">
+    <div class="section-label">About MuClip</div>
+    <h2>Consumer behavior analysis → video content strategy</h2>
+    <p class="about-desc">
+      MuClip is a video marketing studio specializing in audience behavior research and YouTube content strategy. I help brands grow by deeply understanding what drives their audience to watch, share, and convert.
+    </p>
+    <p class="about-desc">
+      My background in consumer behavior analysis shapes every content decision — from scripting to distribution. Understanding <em>why</em> people engage is the foundation of every video strategy I build.
+    </p>
+    <div class="about-badges">
+      <span class="badge">Consumer behavior research</span>
+      <span class="badge">U.S.-based (OPT)</span>
+      <span class="badge">YouTube specialist</span>
+      <span class="badge">Global clients</span>
+      <span class="badge">Korean & English</span>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <div class="founder-name">MuClip Studio</div>
+    <div class="founder-title">Video Marketing · Influencer Strategy</div>
+    <div style="width:48px;height:2px;background:var(--accent);margin-bottom:1.5rem;"></div>
+    <div class="founder-details">
+      <div class="detail-row">
+        <span class="icon">📍</span>
+        <span>United States (currently global-remote)</span>
+      </div>
+      <div class="detail-row">
+        <span class="icon">🎓</span>
+        <span>Consumer Behavior &amp; Audience Analysis specialist</span>
+      </div>
+      <div class="detail-row">
+        <span class="icon">🇺🇸</span>
+        <span>U.S. business entity · OPT status · legally operating</span>
+      </div>
+      <div class="detail-row">
+        <span class="icon">🎬</span>
+        <span>YouTube video production, strategy & influencer marketing</span>
+      </div>
+      <div class="detail-row">
+        <span class="icon">🌏</span>
+        <span>Korean–English bilingual · serving KR & US markets</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SERVICES -->
 <section id="services">
-  <div class="reveal">
-    <div class="section-label">What we do</div>
-    <h2 class="section-title">Built for the<br>attention economy.</h2>
-    <p class="section-sub">Three core disciplines. One goal — make your brand impossible to ignore.</p>
+  <div class="services-header reveal">
+    <div class="section-label">What I offer</div>
+    <h2>Three ways to grow your brand with video</h2>
   </div>
   <div class="services-grid reveal">
     <div class="service-card">
-      <div class="service-num">01 —</div>
-      <svg class="service-icon" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="20" rx="3" stroke="#e8ff47" stroke-width="1.5"/><path d="M14 13l9 5-9 5V13z" fill="#e8ff47"/></svg>
-      <div class="service-name">Content Strategy</div>
-      <p class="service-desc">We map your audience's scroll behavior and build a content system around it. Every post has a purpose. Every format earns its place.</p>
+      <div class="service-num">01</div>
+      <span class="service-icon">🎥</span>
+      <div class="service-title">Brand YouTube Videos</div>
+      <div class="service-desc">I produce full YouTube videos for your brand — scripting, filming direction, editing, and publishing strategy. Built to rank and retain.</div>
+      <span class="service-tag">Script → Edit → Publish</span>
     </div>
     <div class="service-card">
-      <div class="service-num">02 —</div>
-      <svg class="service-icon" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="12" stroke="#e8ff47" stroke-width="1.5"/><path d="M15 13l8 5-8 5V13z" fill="#e8ff47"/><path d="M6 18h4M26 18h4" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <div class="service-name">Short-form Production</div>
-      <p class="service-desc">TikTok. Reels. Shorts. We produce vertical video that feels native — not repurposed. Hooks that land. Edits that move. Stories that convert.</p>
+      <div class="service-num">02</div>
+      <span class="service-icon">📣</span>
+      <div class="service-title">Influencer Marketing</div>
+      <div class="service-desc">I create and manage influencer-style content on your behalf, or place your brand within existing YouTube channels for authentic reach.</div>
+      <span class="service-tag">Creator partnerships</span>
     </div>
     <div class="service-card">
-      <div class="service-num">03 —</div>
-      <svg class="service-icon" viewBox="0 0 36 36" fill="none"><polyline points="4,28 12,18 20,22 28,10" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="10" r="3" fill="#e8ff47"/></svg>
-      <div class="service-name">Growth</div>
-      <p class="service-desc">Posting isn't a strategy. We analyze what's working, double down on signals, and build compounding momentum. Views turn into followers. Followers turn into revenue.</p>
+      <div class="service-num">03</div>
+      <span class="service-icon">📊</span>
+      <div class="service-title">Video Marketing Strategy</div>
+      <div class="service-desc">I research your target audience's behavior patterns and build a full YouTube content strategy around what drives them to watch, engage, and act — then execute it.</div>
+      <span class="service-tag">Strategy → Execution</span>
     </div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio" class="portfolio">
-  <div class="portfolio-header reveal">
-    <div>
-      <div class="section-label">Selected Work</div>
-      <h2 class="section-title">Results speak.</h2>
-    </div>
-    <a href="#contact" style="font-size:.85rem;color:var(--dim);display:flex;align-items:center;gap:.5rem">
-      View all
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-header reveal">
+    <div class="section-label">How it works</div>
+    <h2>Simple process. Real results.</h2>
   </div>
-  <div class="portfolio-grid reveal">
-    <div class="vid-card">
-      <div class="vid-thumb">
-        <div class="vid-thumb-inner" style="background:linear-gradient(160deg,#1a0f00,#0d0c0b)">
-          <div class="thumb-gradient"></div>
-          <div class="vid-play">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="white"/></svg>
-          </div>
-        </div>
-        <div class="vid-badge">Reels</div>
-        <div class="thumb-content">
-          <div class="vid-brand">Dune Coffee</div>
-          <div class="vid-title">Behind the pour — 60 sec origin story</div>
-          <div class="vid-meta"><span>▶ 4.2M views</span><span>+212K followers</span></div>
-        </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <div class="step-title">Discovery call</div>
+        <div class="step-desc">We analyze your brand, goals, and target audience. I map out who your viewers are, what content they already consume, and what behavioral triggers drive them to act.</div>
       </div>
     </div>
-    <div class="vid-card">
-      <div class="vid-thumb">
-        <div class="vid-thumb-inner" style="background:linear-gradient(160deg,#000d1a,#0d0c0b)">
-          <div class="thumb-gradient"></div>
-          <div class="vid-play">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="white"/></svg>
-          </div>
-        </div>
-        <div class="vid-badge">TikTok</div>
-        <div class="thumb-content">
-          <div class="vid-brand">Vault Apparel</div>
-          <div class="vid-title">The drop that broke the algorithm</div>
-          <div class="vid-meta"><span>▶ 8.9M views</span><span>+380K followers</span></div>
-        </div>
+    <div class="process-step reveal">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <div class="step-title">Strategy & concept</div>
+        <div class="step-desc">Based on audience behavior data, I develop a video concept designed around how your specific viewers consume content — not just what's trending, but what actually converts for your niche.</div>
       </div>
     </div>
-    <div class="vid-card">
-      <div class="vid-thumb">
-        <div class="vid-thumb-inner" style="background:linear-gradient(160deg,#070012,#0d0c0b)">
-          <div class="thumb-gradient"></div>
-          <div class="vid-play">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="white"/></svg>
-          </div>
-        </div>
-        <div class="vid-badge">Shorts</div>
-        <div class="thumb-content">
-          <div class="vid-brand">Forma Studio</div>
-          <div class="vid-title">Process video series — 30 days, 30 posts</div>
-          <div class="vid-meta"><span>▶ 11.3M views</span><span>+540K followers</span></div>
-        </div>
+    <div class="process-step reveal">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <div class="step-title">Production & editing</div>
+        <div class="step-desc">Script, shoot direction, editing, thumbnails, captions — I handle the full production pipeline so you can stay focused on your business.</div>
+      </div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <div class="step-title">Publish & optimize</div>
+        <div class="step-desc">We publish with an optimized title, description, and SEO metadata. Then I track performance and iterate to keep your channel growing.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHY MUCLIP -->
-<section id="why">
-  <div class="why-inner">
-    <div class="reveal">
-      <div class="section-label">Why muclip</div>
-      <h2 class="section-title">The feed<br>changed.<br>We did too.</h2>
-      <p class="section-sub" style="margin-bottom:0">Most agencies still think in campaigns. We think in feeds. In scrolls. In 0.3-second decisions.</p>
-      <div class="why-stats">
-        <div class="stat-box"><div class="stat-num">2.5s</div><div class="stat-label">Average hook window</div></div>
-        <div class="stat-box"><div class="stat-num">91%</div><div class="stat-label">Users prefer short-form</div></div>
-        <div class="stat-box"><div class="stat-num">3×</div><div class="stat-label">Higher engagement vs. long-form</div></div>
-        <div class="stat-box"><div class="stat-num">68%</div><div class="stat-label">Purchase decisions from video</div></div>
-      </div>
+<!-- WHY -->
+<div id="why" class="reveal">
+  <div class="section-label">The MuClip edge</div>
+  <h2>Why consumer behavior analysis makes better video marketing</h2>
+  <div class="why-grid">
+    <div class="why-point">
+      <div class="why-point-title">Behavior-first content strategy</div>
+      <div class="why-point-desc">Every video strategy starts with a research phase — analyzing how your target audience consumes content, what keeps them watching, and what drives them to share or purchase.</div>
     </div>
-    <div class="why-points reveal">
-      <div class="why-point">
-        <div class="point-num">01</div>
-        <div class="point-body">
-          <h4>Platform-native thinking</h4>
-          <p>We don't adapt content — we create it for the platform from frame one. TikTok, Reels, and Shorts each have their own language. We're fluent in all three.</p>
-        </div>
-      </div>
-      <div class="why-point">
-        <div class="point-num">02</div>
-        <div class="point-body">
-          <h4>Hook engineering</h4>
-          <p>Every video starts with a problem. The hook is a science, not an art. We test, iterate, and engineer first-frames that stop the scroll cold.</p>
-        </div>
-      </div>
-      <div class="why-point">
-        <div class="point-num">03</div>
-        <div class="point-body">
-          <h4>Data-driven iteration</h4>
-          <p>We don't guess. After every post, we study the signal. Retention curves, swipe-aways, replays — all feed back into the next piece.</p>
-        </div>
-      </div>
-      <div class="why-point">
-        <div class="point-num">04</div>
-        <div class="point-body">
-          <h4>Volume without compromise</h4>
-          <p>Consistency wins on short-form. We deliver volume at quality — built for brands that want to show up every day and win every day.</p>
-        </div>
-      </div>
+    <div class="why-point">
+      <div class="why-point-title">Cross-cultural market fluency</div>
+      <div class="why-point-desc">With hands-on experience in both Korean and U.S. markets, I build content strategies that translate across cultures — a real edge for brands expanding internationally.</div>
+    </div>
+    <div class="why-point">
+      <div class="why-point-title">Data-informed storytelling</div>
+      <div class="why-point-desc">Audience research shapes every script structure, hook, and call-to-action. The result is content grounded in how people actually make decisions — not just what looks good on screen.</div>
+    </div>
+    <div class="why-point">
+      <div class="why-point-title">Long-term content performance</div>
+      <div class="why-point-desc">By understanding the behavioral patterns behind why content ages well, I build videos designed for sustained performance — not just a short spike at launch.</div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- CTA / CONTACT -->
-<section id="contact" class="cta-section">
-  <div class="reveal">
-    <div class="section-label" style="display:inline-block">Ready to grow?</div>
-    <h2 class="cta-title">Stop posting.<br>Start <em>winning.</em></h2>
-    <p class="cta-sub">Tell us your brand. We'll handle the rest.</p>
-    <div class="cta-form">
-      <input class="cta-input" type="email" placeholder="your@email.com" id="ctaEmail">
-      <button class="btn-primary" onclick="handleCTA()">Get started</button>
-    </div>
-    <p id="ctaMsg" style="margin-top:1rem;font-size:.8rem;color:var(--accent);min-height:1.2rem"></p>
+<!-- CTA -->
+<section id="contact">
+  <h2 class="reveal">Ready to make something?</h2>
+  <p class="reveal">Whether you're a brand looking for YouTube growth or want to explore influencer-style content — let's talk.</p>
+  <div class="contact-actions reveal">
+    <a href="mailto:hello@muclip.com" class="btn-primary btn-big">Email me →</a>
+    <a href="https://instagram.com" class="btn-ghost btn-big">Instagram</a>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="logo">mu<span>clip</span></div>
-  <div class="foot-copy">© 2026 muclip. All rights reserved.</div>
-  <div class="foot-links">
-    <a href="#">Instagram</a>
-    <a href="#">TikTok</a>
-    <a href="#">LinkedIn</a>
+  <a href="#" class="logo">Mu<span>Clip</span></a>
+  <p>© 2025 MuClip · U.S.-registered · All rights reserved</p>
+  <div class="footer-links">
+    <a href="mailto:hello@muclip.com">Contact</a>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
   </div>
 </footer>
 
 <script>
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-  }, {threshold:0.12});
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-  function handleCTA(){
-    const email = document.getElementById('ctaEmail').value;
-    const msg = document.getElementById('ctaMsg');
-    if(!email || !email.includes('@')){
-      msg.style.color='#ff6b6b';
-      msg.textContent='Enter a valid email to continue.';
-      return;
+const els = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      e.target.style.transitionDelay = (i % 3) * 0.1 + 's';
+      e.target.classList.add('in');
     }
-    msg.style.color='var(--accent)';
-    msg.textContent="We'll be in touch within 24 hours.";
-    document.getElementById('ctaEmail').value='';
-  }
-
-  window.addEventListener('scroll',()=>{
-    const nav = document.querySelector('nav');
-    nav.style.borderBottomColor = window.scrollY > 50 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)';
   });
+}, { threshold: 0.1 });
+els.forEach(el => io.observe(el));
 </script>
 </body>
 </html>
