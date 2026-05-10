@@ -244,6 +244,63 @@
     margin-bottom: 1.5rem;
   }
 
+  /* ── SHORTS SHOWCASE ── */
+  #shorts-showcase {
+    padding: 5rem 2.5rem;
+    text-align: center;
+  }
+  .shorts-showcase-header {
+    max-width: 520px;
+    margin: 0 auto 3rem;
+  }
+  .shorts-showcase-header h2 {
+    margin-bottom: 0.75rem;
+  }
+  .shorts-showcase-header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .shorts-grid {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .short-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .short-embed-wrap {
+    width: 270px;
+    height: 480px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    background: #111;
+    position: relative;
+  }
+  .short-embed-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .short-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .shorts-note {
+    margin-top: 2.5rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.04em;
+  }
+
   /* ── ABOUT ── */
   #about {
     display: grid;
@@ -251,7 +308,6 @@
     gap: 4rem;
     align-items: center;
   }
-  .about-left { }
   .about-desc {
     color: var(--muted);
     line-height: 1.8;
@@ -319,10 +375,7 @@
     letter-spacing: 0.1em;
     margin-bottom: 1.5rem;
   }
-  .service-icon {
-    font-size: 2rem; margin-bottom: 1rem;
-    display: block;
-  }
+  .service-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
   .service-title {
     font-family: 'Syne', sans-serif;
     font-size: 1.1rem;
@@ -340,7 +393,6 @@
   }
 
   /* ── PROCESS ── */
-  #process { }
   .process-header { max-width: 500px; margin-bottom: 4rem; }
   .process-steps { display: flex; flex-direction: column; gap: 0; }
   .process-step {
@@ -362,7 +414,6 @@
     transition: color 0.3s;
   }
   .process-step:hover .step-num { color: var(--accent); }
-  .step-body { }
   .step-title {
     font-family: 'Syne', sans-serif;
     font-size: 1.3rem;
@@ -372,7 +423,7 @@
   }
   .step-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 480px; }
 
-  /* ── WHY / SOCIOLOGY ── */
+  /* ── WHY ── */
   #why {
     background: var(--accent);
     color: var(--black);
@@ -384,7 +435,6 @@
   #why .section-label::before { background: rgba(0,0,0,0.5); }
   #why h2 { color: var(--black); }
   .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
-  .why-point { }
   .why-point-title {
     font-family: 'Syne', sans-serif;
     font-size: 1rem;
@@ -393,10 +443,7 @@
     color: var(--black);
     display: flex; align-items: center; gap: 0.5rem;
   }
-  .why-point-title::before {
-    content: '→';
-    font-size: 0.9rem;
-  }
+  .why-point-title::before { content: '→'; font-size: 0.9rem; }
   .why-point-desc { font-size: 0.9rem; color: rgba(0,0,0,0.6); line-height: 1.7; }
 
   /* ── CTA ── */
@@ -416,10 +463,7 @@
   #contact h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); position: relative; z-index: 1; }
   #contact p { color: var(--muted); font-size: 1.1rem; margin: 1.5rem auto; max-width: 480px; line-height: 1.7; position: relative; z-index: 1; }
   .contact-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; position: relative; z-index: 1; }
-  .btn-big {
-    padding: 1rem 2.5rem;
-    font-size: 1rem;
-  }
+  .btn-big { padding: 1rem 2.5rem; font-size: 1rem; }
 
   /* ── FOOTER ── */
   footer {
@@ -448,6 +492,8 @@
     .why-grid { grid-template-columns: 1fr; }
     #why { margin: 0 1rem; padding: 3rem 2rem; }
     .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    .shorts-grid { flex-direction: column; align-items: center; }
+    .short-embed-wrap { width: 90vw; max-width: 320px; }
   }
 </style>
 </head>
@@ -516,6 +562,51 @@
     <span class="marquee-item">US Market</span>
   </div>
 </div>
+
+<!-- SHORTS SHOWCASE -->
+<section id="shorts-showcase">
+  <div class="shorts-showcase-header reveal">
+    <div class="section-label">Work samples</div>
+    <h2>Short-form content that performs</h2>
+    <p>A preview of what behavior-driven video strategy looks like in practice.</p>
+  </div>
+  <div class="shorts-grid">
+    <div class="short-card reveal">
+      <div class="short-embed-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/aU2KRF87RPc?autoplay=0&rel=0&modestbranding=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          title="Short sample 1"
+        ></iframe>
+      </div>
+      <span class="short-label">Viral hook structure</span>
+    </div>
+    <div class="short-card reveal">
+      <div class="short-embed-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/JfbnpYLe3Ms?autoplay=0&rel=0&modestbranding=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          title="Short sample 2"
+        ></iframe>
+      </div>
+      <span class="short-label">Behavioral retention loop</span>
+    </div>
+    <div class="short-card reveal">
+      <div class="short-embed-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/G7IgOvVFlmo?autoplay=0&rel=0&modestbranding=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          title="Short sample 3"
+        ></iframe>
+      </div>
+      <span class="short-label">Emotion-driven shareability</span>
+    </div>
+  </div>
+  <p class="shorts-note">← Replace these with your own Shorts when ready</p>
+</section>
 
 <!-- ABOUT -->
 <section id="about">
